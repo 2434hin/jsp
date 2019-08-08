@@ -1,12 +1,10 @@
-<%@page import="kr.or.ddit.user.model.UserVO"%>
+<%@page import="kr.or.ddit.user.model.User"%>
 <%@page import="java.util.List"%>
 <%@page import="kr.or.ddit.user.repository.UserDao"%>
 <%@page import="kr.or.ddit.user.repository.IUserDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%!
-	public IUserDao dao = new UserDao();
- %>
+<%!public IUserDao dao = new UserDao();%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +24,7 @@
 		 2. getUserList() 호출
 		 3. 호출결과(List<UserVo>)를 for loop를 통해 tr태그를 반복 생성--%>
 	<%
-		List<UserVO> userList = dao.getUserList();
+		List<User> userList = dao.getUserList();
 	%>
 	<table border=1>
 		<tr>
@@ -38,7 +36,9 @@
 <!-- 			</tr> -->
 <%-- 		<%} %> --%>
 
-		<%for(UserVO userVo : userList){ %>
+		<%
+			for(User userVo : userList){
+		%>
 			<tr>
 				<td><%=userVo.getUserNm() %></td>
 			</tr>
