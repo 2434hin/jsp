@@ -21,8 +21,8 @@ select iw, min(sun), min(mon), min(tue), min(wed), min(thu), min(fri), min(sat)
          decode(to_char(dt, 'd'), 6, dt) fri,
          decode(to_char(dt, 'd'), 7, dt) sat
     from
-(select level, to_date('201908', 'yyyyMM') + (level-1) dt --날짜타입 + 정수 : 일자연산
+(select level, to_date('201910', 'yyyyMM')-2 + (level-1) dt --날짜타입 + 정수 : 일자연산
     from dual 
-connect by level <= add_months(to_date('201908', 'yyyyMM'),1) - to_date('201908', 'yyyyMM')))
+connect by level <= add_months(to_date('201910', 'yyyyMM'),1) - to_date('201910', 'yyyyMM')+4))
 group by iw
 order by iw;
