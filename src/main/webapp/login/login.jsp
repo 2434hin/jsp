@@ -35,6 +35,7 @@
 				
 				// remember me checkbox 체크
 				$('#rememberMe').prop("checked", true);
+				$('#pass').focus();
 			}
 			
 			//signin btn 클릭 이벤트 핸들러
@@ -42,11 +43,11 @@
 				//console.log("signinBtn click");
 				
 				// remember me check box가 체크가 되었는지??
-				if($('#rememberMe').prop("checked")){
-					Cookies.set('userId', $("#userId").val(), {expires : 30});
-				}else {
-					Cookies.remove("userId");
-				}
+// 				if($('#rememberMe').prop("checked")){
+// 					Cookies.set('userId', $("#userId").val(), {expires : 30});
+// 				}else {
+// 					Cookies.remove("userId");
+// 				}
 				
 				//로그인 요청
 				$('#frm').submit();
@@ -96,7 +97,7 @@
                
         <div class="checkbox">
           <label>
-            <input id="rememberMe" type="checkbox" value="remember-me"> Remember me
+            <input id="rememberMe" name="rememberMe" type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
         <button id="signinBtn" class="btn btn-lg btn-primary btn-block" type="button">Sign in</button>
