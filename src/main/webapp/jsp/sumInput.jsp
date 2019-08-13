@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h2>Start값과 end값 입력</h2>
-	<form action="<%=request.getContextPath()%>/sumCalculation" method="get">
+	<form action="${pageContext.request.contextPath }/sumCalculation" method="get">
 		start : <input type="text" name="start"><br>
 		end : <input type="text" name="end"><br><br>
 		
