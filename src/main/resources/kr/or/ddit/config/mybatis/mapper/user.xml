@@ -7,9 +7,12 @@
   <select id="getUserList" resultType="user">
     select * from users
   </select>
-  
+
   <select id="getUser" parameterType="String" resultType="user">
   	select * from users where userId = #{userId}
   </select>
-  
+
+  <select id="getUserListOnlyHalf" resultType="user">
+  	select * from users where rownum &lt;= 50
+  </select>
 </mapper>

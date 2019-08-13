@@ -18,22 +18,22 @@ public class UserDao implements IUserDao{
 	 */
 	@Override
 	public List<User> getUserList() {
-		
+
 		// db에서 조회가 되었다고 가정하고 가짜 객체를 리턴
 //		List<UserVO> userList = new ArrayList<UserVO>();
 //		userList.add(new UserVO("brown"));
 //		userList.add(new UserVO("cony"));
 //		userList.add(new UserVO("sally"));
-		
+
 		SqlSession sqlSession = MybatisUtil.getSession();
 		List<User> userList = sqlSession.selectList("user.getUserList");
 		sqlSession.close();
-		
+
 		return userList;
 	}
 
 	/**
-	 * 
+	 *
 	 * Method : getUser
 	 * 작성자 : PC-11
 	 * 변경이력 :
@@ -49,5 +49,22 @@ public class UserDao implements IUserDao{
 		return userVo;
 	}
 
-	
+	/**
+	 *
+	 * Method : getUserListOnlyHalf
+	 * 작성자 : PC-11
+	 * 변경이력 :
+	 * @return
+	 * Method 설명 : 사용자 정보 조회(50명만)
+	 */
+	@Override
+	public List<User> getUserListOnlyHalf() {
+		SqlSession sqlSession = MybatisUtil.getSession();
+		List<User> userList = sqlSession.selectList("user.getUserListOnlyHalf");
+		sqlSession.close();
+
+		return userList;
+	}
+
+
 }
