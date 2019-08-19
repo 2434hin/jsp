@@ -4,8 +4,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,25 +19,9 @@
 
 <%@ include file="/commonJsp/basicLib.jsp"%>
 
-<script>
-	$(document).ready(function () {
-
-		$(".lprod_gu").on('click', function () {
-
-			$('#lprod_Gu').val($(this).text());
-
-			$('#frm').submit();
-		});
-	})
-</script>
-
 </head>
 
 <body>
-
-	<form id="frm" action="${cp }/prodList" method="get">
-		<input type="hidden" id="lprod_Gu" name="lprod_Gu"/>
-	</form>
 
 	<!-- header -->
 	<%@ include file="/commonJsp/header.jsp"%>
@@ -56,25 +38,32 @@
 
 				<div class="row">
 					<div class="col-sm-8 blog-main">
-						<h2 class="sub-header">제품그룹리스트</h2>
+						<h2 class="sub-header">사용자</h2>
 						<div class="table-responsive">
 							<table class="table table-striped">
 								<tr>
-									<th>lprod_id</th>
-									<th>lprod_gu</th>
-									<th>lprod_nm</th>
+									<th>제품그룹명</th>
+									<th>제품그룹번호</th>
+									<th>바이어이름</th>
+									<th>제품아이디</th>
+									<th>제품명</th>
+									<th>가격</th>
 								</tr>
 
-								<c:forEach items="${lprodList}" var="lprod">
+								<c:forEach items="${prodList}" var="prod">
 									<tr>
-										<td>${lprod.lprod_id}</td>
-										<td class="lprod_gu">${lprod.lprod_gu}</td>
-										<td>${lprod.lprod_nm}</td>
+										<td>${prod.lprod_nm}</td>
+										<td>${prod.prod_lgu}</td>
+										<td>${prod.buyer_name}</td>
+										<td>${prod.prod_id}</td>
+										<td>${prod.prod_name}</td>
+										<td>${prod.prod_price}</td>
 									</tr>
 								</c:forEach>
 
 							</table>
 						</div>
+
 					</div>
 				</div>
 			</div>
