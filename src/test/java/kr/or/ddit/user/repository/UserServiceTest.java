@@ -12,34 +12,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.or.ddit.user.model.User;
+import kr.or.ddit.user.service.IUserService;
+import kr.or.ddit.user.service.UserService;
 import kr.or.ddit.util.MybatisUtil;
 
-public class UserDaoTest {
+public class UserServiceTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
 
-	private IUserDao userDao;
-	private SqlSession sqlSession;
+	private IUserService userService;
 
-	// junit 테스트 메소드 실행 순서
-	// @Before -> @Test -> @After
-	// @Test 테스트 메소드가 실행되기 전에  @Before이 작용된 메소드를 먼저 실행하고, @Test 메소드 실행후
-	// @After이 적용된 메소드를 실행한다.
-	// @Test 메소드는 실행순서가 보장되지 않음
-
-	// 테스트에 공통적으로 필요한 자원을 생성 / 초기화
 	@Before
 	public void setup() {
-		logger.debug("before");
-		userDao = new UserDao();
-		sqlSession = MybatisUtil.getSession();
-	}
-
-	// 테스트에 공통적으로 사용한 자원을 해제
-	@After
-	public void tearDown() {
-		logger.debug("after");
-		sqlSession.close();
+		userService = new UserService();
 	}
 
 	/**
@@ -55,7 +40,7 @@ public class UserDaoTest {
 		/***Given***/
 
 		/***When***/
-		List<User> userList = userDao.getUserList(sqlSession);
+		List<User> userList = userService.getUserList();
 
 		/***Then***/
 		assertEquals(105, userList.size());
@@ -76,7 +61,7 @@ public class UserDaoTest {
 		String userId = "brown";
 
 		/***When***/
-		User userVo= userDao.getUser(sqlSession, userId);
+		User userVo= userService.getUser(userId);
 
 		/***Then***/
 		assertEquals("브라운", userVo.getUserNm());
@@ -97,7 +82,7 @@ public class UserDaoTest {
 		/***Given***/
 
 		/***When***/
-		List<User> userList = userDao.getUserListOnlyHalf(sqlSession);
+		List<User> userList = userService.getUserListOnlyHalf();
 
 		/***Then***/
 		assertEquals(50, userList.size());
