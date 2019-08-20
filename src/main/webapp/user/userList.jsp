@@ -29,10 +29,34 @@
 
 			// 클릭된 tr 태그의 자식태그(td)중 첫번째 자식의 텍스트 문자열
 			// :) 사용자 아이디를 확인할 수 있는 방법
-			console.log($(this).children().first().text());
+/* 			<tr class="userTr">
+				<input type="hidden" value="${user.userId}"/>
+				<td>${user.userId}</td>
+				<td>${user.userNm}</td>
+				<td>${user.alias}</td>
+				<td>${user.reg_dt_fmt}</td>
+			</tr> */
+
+			// td태그의 택스트 가져오기(첫번째 자식)
+			//var tdText = $(this).children().first().text();
+
+			// td태그의 택스트 가져오기(두번째 자식)
+			var tdText = $($(this).children()[1]).text();
+			console.log("tdText : " + tdText);
+
+			// input태긍 저장된 값 확인
+			var inputValue = $(this).find("input").val();
+			console.log("inputValue : " + inputValue);
+
+			// data속성으로 값 가져오기
+			// data속성명은 소문자로 치환된다!!!
+			// data-userId --> $(this).data("userid");
+			// 대소문자 주의!!!!!!!
+			var dataValue = $(this).data("userid");
+			console.log("dataValue : " + dataValue);
 
 			// input 태그에 값 설정
-			$('#userId').val($(this).children().first().text());
+			$('#userId').val(dataValue);
 
 			// form 태그 이용 전송
 			console.log("serialize : " + $('#frm').serialize());
@@ -92,7 +116,8 @@
 
 								<%-- for(User user : userList) --%>
 								<c:forEach items="${userList}" var="user">
-									<tr class="userTr">
+									<tr class="userTr" data-userId="${user.userId}">
+										<input type="hidden" value="${user.userId}"/>
 										<td>${user.userId}</td>
 										<td>${user.userNm}</td>
 										<td>${user.alias}</td>
