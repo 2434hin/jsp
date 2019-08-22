@@ -3,13 +3,10 @@ package kr.or.ddit.lprod.repository;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import kr.or.ddit.common.model.Page;
 import kr.or.ddit.lprod.model.LprodVo;
@@ -18,24 +15,15 @@ import kr.or.ddit.lprod.repasitory.LprodDao;
 import kr.or.ddit.lprod.service.ILprodService;
 import kr.or.ddit.lprod.service.LprodService;
 import kr.or.ddit.user.model.User;
-import kr.or.ddit.user.repository.UserDao;
-import kr.or.ddit.util.MybatisUtil;
+import kr.or.ddit.user.service.UserService;
 
-public class LprodDaoTest {
+public class LprodServiceTest {
 
-	private ILprodDao lprodDao;
-	private SqlSession sqlSession;
+	private ILprodService lprodService;
 
 	@Before
 	public void setup() {
-		lprodDao = new LprodDao();
-		sqlSession = MybatisUtil.getSession();
-	}
-
-	// 테스트에 공통적으로 사용한 자원을 해제
-	@After
-	public void tearDown() {
-		sqlSession.close();
+		lprodService = new LprodService();
 	}
 
 	/**
@@ -51,20 +39,13 @@ public class LprodDaoTest {
 		/***Given***/
 
 		/***When***/
-		List<LprodVo> lprodList = lprodDao.getLprodList(sqlSession);
+		List<LprodVo> lprodList = lprodService.getLprodList();
 
 		/***Then***/
 		assertEquals(10, lprodList.size());
 
 	}
 
-	/**
-	 *
-	 * Method : getLprodPagingList
-	 * 작성자 : PC-11
-	 * 변경이력 :
-	 * Method 설명 : 제품그룹 페이징 리스트 조회
-	 */
 	@Test
 	public void getLprodPagingList() {
 		/***Given***/
@@ -73,20 +54,25 @@ public class LprodDaoTest {
 		page.setPagesize(5);
 
 		/***When***/
-		List<LprodVo> lprodList = lprodDao.getLprodPagingList(sqlSession, page);
+		Map<String, Object> resultMap = lprodService.getLprodPagingList(page);
+		List<LprodVo> lprodList = (List<LprodVo>) resultMap.get("lprodList");
+		int paginationSize = (Integer)resultMap.get("paginationSize");
 
 		/***Then***/
 		assertEquals(5, lprodList.size());
+		assertEquals(2, paginationSize);
 	}
 
 	@Test
-	public void getLprodTotalCnt() {
+	public void ceilingTest() {
 		/***Given***/
+		int totalCnt = 10;
+		int pagesize = 5;
 
 		/***When***/
-		int totalCnt = lprodDao.getLprodTotalCnt(sqlSession);
+		double paginationSize = Math.ceil((double)totalCnt / pagesize);
 
 		/***Then***/
-		assertEquals(10, totalCnt);
+		assertEquals(2, (int)paginationSize);
 	}
 }

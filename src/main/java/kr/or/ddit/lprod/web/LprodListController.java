@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.or.ddit.lprod.model.LprodVo;
 import kr.or.ddit.lprod.repasitory.LprodDao;
+import kr.or.ddit.lprod.service.LprodService;
 
 @WebServlet("/lprodList")
 public class LprodListController extends HttpServlet {
@@ -18,8 +19,8 @@ public class LprodListController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		LprodDao lprodDao = new LprodDao();
-		List<LprodVo> lprodList = lprodDao.getLprodList();
+		LprodService lprodService = new LprodService();
+		List<LprodVo> lprodList = lprodService.getLprodList();
 
 		request.setAttribute("lprodList", lprodList);
 

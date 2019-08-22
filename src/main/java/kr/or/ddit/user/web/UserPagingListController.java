@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.or.ddit.common.model.Page;
 import kr.or.ddit.user.model.User;
 import kr.or.ddit.user.service.IUserService;
@@ -21,6 +24,8 @@ import kr.or.ddit.user.service.UserService;
 @WebServlet("/userPagingList")
 public class UserPagingListController extends HttpServlet {
    private static final long serialVersionUID = 1L;
+
+   private static final Logger logger = LoggerFactory.getLogger(UserPagingListController.class);
 
    private IUserService userService;
 
@@ -35,11 +40,16 @@ public class UserPagingListController extends HttpServlet {
       String pageStr = request.getParameter("page");
       String pagesizeStr = request.getParameter("pagesize");
 
-      Page page = new Page(Integer.parseInt(pageStr), Integer.parseInt(pagesizeStr));
+      int page = pageStr == null ? 1 : Integer.parseInt(pageStr);
+      int pagesize = pagesizeStr == null ? 10 : Integer.parseInt(pagesizeStr);
+
+      Page p = new Page(page, pagesize);
+
+      request.setAttribute("pageVo", p);
 
       // userService 객체를 이용하여 getUserPagingList를 호출
       // 반환된 사용자 리스트를 request객체에 속성으로 저장
-      Map<String, Object> resultMap = userService.getUserPagingList(page);
+      Map<String, Object> resultMap = userService.getUserPagingList(p);
       List<User> userList = (List<User>) resultMap.get("userList");
       int paginationSize = (Integer)resultMap.get("paginationSize");
       request.setAttribute("userList", userList);
