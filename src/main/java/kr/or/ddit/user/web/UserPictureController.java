@@ -1,25 +1,22 @@
 package kr.or.ddit.user.web;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import kr.or.ddit.user.model.User;
 import kr.or.ddit.user.service.IUserService;
 import kr.or.ddit.user.service.UserService;
 
-@WebServlet("/user")
-public class UserController extends HttpServlet {
+@WebServlet("/userPicture")
+public class UserPictureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	private IUserService userService;
 
@@ -29,24 +26,23 @@ public class UserController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String userId = request.getParameter("userId");
-
-		logger.debug("userId : {}", userId);
-
 		User user = userService.getUser(userId);
 
-		request.setAttribute("user", user);
+		ServletOutputStream sos =  response.getOutputStream();
 
-		request.getRequestDispatcher("/user/user.jsp").forward(request, response);
+		File picture = new File(user.getRealfilename());
+		FileInputStream fis = new FileInputStream(picture);
+
+		byte[] buff = new byte[512];
+		int len = 0;
+
+		while((len = fis.read(buff, 0, 512)) != -1) {
+			sos.write(buff, 0, len);
+		}
+
+		fis.close();
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-
-		logger.debug("UserController.doPost");
-		doGet(request, response);
-	}
-
 
 }

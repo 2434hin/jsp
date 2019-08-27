@@ -143,12 +143,36 @@ public class UserServiceTest {
 		user.setAddr1("대전광역시 중구 중앙로 76");
 		user.setAddr2("영민빌딩 2층 DDIT");
 		user.setZipcode("34940");
+		user.setFilename("sally.png");
+		user.setRealfilename("e:/upload/2019/08/8cdaf3b1-e7a3-40f8-bc54-69b57d19d6b1.png");
 
 		/***When***/
 		int insertUser = userService.insertUser(user);
 
 		/***Then***/
 		assertEquals(1, insertUser);
+	}
+
+	@Test
+	public void updateUserTest() throws ParseException {
+		/***Given***/
+		User user = new User();
+		user.setUserId("sally");
+		user.setUserNm("샐리");
+		user.setPass("sallyTest1234");
+		user.setReg_dt(new SimpleDateFormat("yyyy-MM-dd").parse("2019-08-08"));
+		user.setAlias("병아리");
+		user.setAddr1("대전광역시 중구 중앙로 76");
+		user.setAddr2("영민빌딩 2층 DDIT");
+		user.setZipcode("34940");
+		user.setFilename("sally.png");
+		user.setRealfilename("e:/upload/2019/08/8cdaf3b1-e7a3-40f8-bc54-69b57d19d6b1.png");
+
+		/***When***/
+		int updateUser = userService.updateUser(user);
+
+		/***Then***/
+		assertEquals(1, updateUser);
 	}
 
 }

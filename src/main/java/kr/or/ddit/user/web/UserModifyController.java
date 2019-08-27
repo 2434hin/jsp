@@ -5,8 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,12 +22,12 @@ import kr.or.ddit.user.service.IUserService;
 import kr.or.ddit.user.service.UserService;
 import kr.or.ddit.util.FileuploadUtil;
 
-@WebServlet("/userForm")
-@MultipartConfig(maxFileSize = 1024*1024*5, maxRequestSize = 1024*1024*5*5)
-public class UserFormController extends HttpServlet {
+@WebServlet("/userModify")
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
+public class UserModifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = LoggerFactory.getLogger(UserFormController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserModifyController.class);
 
 	private IUserService userService;
 
@@ -38,23 +36,21 @@ public class UserFormController extends HttpServlet {
 		userService = new UserService();
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("/user/userForm.jsp").forward(request, response);
+		String userId = request.getParameter("userId");
+
+		User user = userService.getUser(userId);
+
+		request.setAttribute("user", user);
+
+		request.getRequestDispatcher("/user/userModify.jsp").forward(request, response);
 	}
 
-	/**
-	 *
-	 * Method : doPost
-	 * 작성자 : PC-11
-	 * 변경이력 :
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 * Method 설명 :  사용자 등록 요청
-	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
 
 		String userId = request.getParameter("userId");
@@ -65,6 +61,7 @@ public class UserFormController extends HttpServlet {
 		String addr2 = request.getParameter("addr2");
 		String zipcode = request.getParameter("zipcode");
 		String pass = request.getParameter("pass");
+
 		Date reg_dt_date = null;
 
 		Part picture = request.getPart("picture");
@@ -79,6 +76,13 @@ public class UserFormController extends HttpServlet {
 			path = FileuploadUtil.getPath() + realFilename + ext;
 
 			picture.write(path);
+		} else {
+			// 사용자가 업로드를 안한경우
+			User user = userService.getUser(userId);
+
+			filename = user.getFilename();
+			path = user.getRealfilename();
+
 		}
 
 		try {
@@ -87,30 +91,18 @@ public class UserFormController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		// validation
-		Pattern p = Pattern.compile("^([a-zA-Z\\d\\.@]){5,20}$");
-		Matcher m = p.matcher(userId);
-		if(!m.find()) {
-			request.setAttribute("userIdMsg", "사용자 아이디가 잘못되었습니다.");
-			doGet(request, response);
-		} else {
-			logger.debug("user parameter : {}, {}, {}, {}, {}, {}, {}, {}",
-					userId, userNm, alias, reg_dt, addr1, addr2, zipcode, pass);
+		// 사용자 수정
+		User user = new User(userId, userNm, alias, reg_dt_date, addr1, addr2, zipcode, pass, filename, path);
+		int updateCnt = 0;
 
-			// 사용자 등록
-			User user = new User(userId, userNm, alias, reg_dt_date, addr1, addr2, zipcode, pass, filename, path);
-			int insertCnt = 0;
-
-			try {
-				insertCnt = userService.insertUser(user);
-				// 정상등록 : 사용자 상세화면으로 이동
-				if(insertCnt == 1) {
-					//request.getRequestDispatcher("/user").forward(request, response);
-					response.sendRedirect(request.getContextPath() + "/user?userId=" + userId);
-				}
-			} catch(Exception e) {
-				doGet(request, response);
+		try {
+			updateCnt = userService.updateUser(user);
+			// 정상수정 : 사용자 상세화면으로 이동
+			if(updateCnt == 1) {
+				response.sendRedirect(request.getContextPath() + "/user?userId=" + userId);
 			}
+		} catch(Exception e) {
+			doGet(request, response);
 		}
 	}
 }

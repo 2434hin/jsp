@@ -171,6 +171,8 @@ public class UserDaoTest {
 		user.setAddr1("대전광역시 중구 중앙로 76");
 		user.setAddr2("영민빌딩 2층 DDIT");
 		user.setZipcode("34940");
+		user.setFilename("sally.png");
+		user.setRealfilename("e:/upload/2019/08/8cdaf3b1-e7a3-40f8-bc54-69b57d19d6b1.png");
 
 		/***When***/
 		int inserCnt = userDao.insertUser(sqlSession, user);
@@ -178,5 +180,28 @@ public class UserDaoTest {
 
 		/***Then***/
 		assertEquals(1, inserCnt);
+	}
+
+	@Test
+	public void updateUserTest() throws ParseException {
+		/***Given***/
+		User user = new User();
+		user.setUserId(userId);
+		user.setUserNm("브라운테스트");
+		user.setPass("brownTest1234");
+		user.setReg_dt(new SimpleDateFormat("yyyy-MM-dd").parse("2019-08-08"));
+		user.setAlias("곰테스트");
+		user.setAddr1("대전광역시 중구 중앙로 76");
+		user.setAddr2("영민빌딩 2층 DDIT");
+		user.setZipcode("34940");
+		user.setFilename("brown.png");
+		user.setRealfilename("e:\\upload\\2019\\08\\8d19d9ea-c67f-416b-9b40-8dac10011aaa.png");
+
+		/***When***/
+		int updateCnt = userDao.updateUser(sqlSession, user);
+		sqlSession.commit();
+
+		/***Then***/
+		assertEquals(1, updateCnt);
 	}
 }
