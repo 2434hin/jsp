@@ -18,16 +18,17 @@ public class KISA_SHA256Test {
 	@Test
 	public void encryptTest() {
 		/***Given***/
-		String pass = "brown1234";
+		String pass = "cony1234";
 
 		/***When***/
+		// :) sha256 : 해시(단방향) -> 복구화 불가능
 		String encryptedPass = KISA_SHA256.encrypt(pass);
 		logger.debug("encryptedPass : {}", encryptedPass);
 
 		/***Then***/
 		// c6347b73d5b1f7c77f8be828ee3e871c819578f23779c7d5e082ae2b36a44
 		//assertEquals("예상값", "실제값");
-		
+
 	}
 
 }

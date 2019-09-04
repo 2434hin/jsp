@@ -1,5 +1,6 @@
 package kr.or.ddit.user.web;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,6 +63,8 @@ public class UserModifyController extends HttpServlet {
 		String zipcode = request.getParameter("zipcode");
 		String pass = request.getParameter("pass");
 
+		User getUser = userService.getUser(userId);
+
 		Date reg_dt_date = null;
 
 		Part picture = request.getPart("picture");
@@ -70,6 +73,15 @@ public class UserModifyController extends HttpServlet {
 		String filename = "";
 		String path = "";
 		if(picture.getSize() > 0) {
+
+			if(getUser.getRealfilename() != null) {
+				// 파일 삭제
+				File file = new File(getUser.getRealfilename());
+				if(file.exists()) {
+					file.delete();
+				}
+			}
+
 			filename = FileuploadUtil.getFilename(picture.getHeader("Content-Disposition"));	// 사용자가 업로드한 파일명
 			String realFilename = UUID.randomUUID().toString();
 			String ext = FileuploadUtil.getFileExtension(picture.getHeader("Content-Disposition"));
@@ -78,11 +90,14 @@ public class UserModifyController extends HttpServlet {
 			picture.write(path);
 		} else {
 			// 사용자가 업로드를 안한경우
-			User user = userService.getUser(userId);
 
-			filename = user.getFilename();
-			path = user.getRealfilename();
-
+			if(getUser.getFilename() == null) {
+				filename = "";
+				path = "";
+			}else {
+				filename = getUser.getFilename();
+				path = getUser.getRealfilename();
+			}
 		}
 
 		try {

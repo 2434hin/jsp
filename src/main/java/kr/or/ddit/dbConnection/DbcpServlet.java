@@ -16,24 +16,24 @@ import org.slf4j.LoggerFactory;
 @WebServlet(urlPatterns = "/DbcpServlet", loadOnStartup = 1)
 public class DbcpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(DbcpServlet.class);
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		logger.debug("DbcpServlet init()");
-		
+
 		// servlet application(servletContext) 얻어오기
 		// jsp : application / session / request / pageContext(page)
 		// servlet : ???? / request.getSesstion() / request / N/A
 		ServletContext application = config.getServletContext();
-		
+
 		// database connection pool 객체를 생성
-		
+
 		/*
-		 * Class.forName("oracle.jdbc.driver.OracleDriver"); 
-		 * conn = DriverManager.getConnection( 
-		 * "jdbc:oracle:thin:@localhost:1521:xe", 
+		 * Class.forName("oracle.jdbc.driver.OracleDriver");
+		 * conn = DriverManager.getConnection(
+		 * "jdbc:oracle:thin:@localhost:1521:xe",
 		 * "KHI",
 		 * "java");
 		 */
@@ -43,10 +43,10 @@ public class DbcpServlet extends HttpServlet {
 		ds.setUsername("KHI");
 		ds.setPassword("java");
 		ds.setInitialSize(10);
-		
+
 		application.setAttribute("ds", ds);
 	}
-	
-	
-	
+
+
+
 }
