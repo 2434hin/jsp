@@ -8,23 +8,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>uri 통계자료</h2>
 	<table>
 		<thead>
 			<tr>
-				<td>uri</td>
-				<td>method</td>
-				<td>횟수</td>
+				<td>사용자 아이디</td>
+				<td>사용자 이름</td>
+				<td>사용자 별명</td>
 			</tr>
 		</thead>
-		<%-- application scope 저장된 속성명 : requestCountMap --%>
 		<tbody>
-			<c:forEach items="${requestCountMap }" var="entry">
-			<tr>
-				<td>${entry.key.uri }</td>
-				<td>${entry.key.method }</td>
-				<td>${entry.value }</td>
-			</tr>
+			<c:forEach items="${S_USERVO_LIST }" var="user">
+				<tr>
+					<td>${user.userId }</td>
+					<td>${user.userNm }</td>
+					<td>${user.alias }</td>
+				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
