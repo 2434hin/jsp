@@ -3,22 +3,25 @@ package kr.or.ddit.user.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 
-public class User {
+public class User implements HttpSessionBindingListener{
 
-	private String userId;		// 사용자 아이디
-	private String pass;		// 사용자 비밀번호
-	private String userNm;		// 사용자 이름
-	private String alias;		// 사용자 별명
-	private Date reg_dt;		// 등록 일자
-	private String addr1;		// 주소1
-	private String addr2;		// 주소2
-	private String zipcode;		// 우편번호
-	private String filename;	// 실제 파일명(사용자 업로드 파일명)
+	private String userId;			// 사용자 아이디
+	private String pass;			// 사용자 비밀번호
+	private String userNm;			// 사용자 이름
+	private String alias;			// 사용자 별명
+	private Date reg_dt;			// 등록 일자
+	private String addr1;			// 주소1
+	private String addr2;			// 주소2
+	private String zipcode;			// 우편번호
+	private String filename;		// 실제 파일명(사용자 업로드 파일명)
 	private String realfilename;	// 물리 파일명
 	private String realfilename2;	// 물리 파일명
 
@@ -148,6 +151,19 @@ public class User {
 
 	public void setRealfilename2(String realfilename2) {
 		this.realfilename2 = realfilename2;
+	}
+
+	private static final Logger logger = LoggerFactory.getLogger(User.class);
+
+	// HttpSessionBindingListener
+	@Override
+	public void valueBound(HttpSessionBindingEvent event) {
+		logger.debug("value bound");
+	}
+
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
+		logger.debug("value unbound");
 	}
 
 }
