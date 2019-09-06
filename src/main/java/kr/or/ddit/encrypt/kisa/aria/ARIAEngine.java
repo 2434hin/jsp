@@ -1,7 +1,7 @@
-﻿//
-//  ARIA.java
 //
-//  A pure Java implementation of ARIA
+//  ARIA.java
+//  
+//  A pure Java implementation of ARIA 
 //  following the official ARIA specification at
 //
 //package crdf.regi.egov.security;
@@ -119,7 +119,7 @@ class ARIAEngine {
 	private int keySize=0;
 	private int numberOfRounds=0;
 	private byte[] masterKey=null;
-	private int[] encRoundKeys=null, decRoundKeys=null;
+	private int[] encRoundKeys=null, decRoundKeys=null; 
 
 	public ARIAEngine(int keySize) throws InvalidKeyException {
 		setKeySize(keySize);
@@ -205,7 +205,7 @@ class ARIAEngine {
 			t0=TS1[(t0>>>24)&0xff]^TS2[(t0>>>16)&0xff]^TX1[(t0>>>8)&0xff]^TX2[t0&0xff];
 			t1=TS1[(t1>>>24)&0xff]^TS2[(t1>>>16)&0xff]^TX1[(t1>>>8)&0xff]^TX2[t1&0xff];
 			t2=TS1[(t2>>>24)&0xff]^TS2[(t2>>>16)&0xff]^TX1[(t2>>>8)&0xff]^TX2[t2&0xff];
-			t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];
+			t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];         
 			t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 			t1=badc(t1); t2=cdab(t2); t3=dcba(t3);
 			t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
@@ -214,9 +214,9 @@ class ARIAEngine {
 			t0=TX1[(t0>>>24)&0xff]^TX2[(t0>>>16)&0xff]^TS1[(t0>>>8)&0xff]^TS2[t0&0xff];
 			t1=TX1[(t1>>>24)&0xff]^TX2[(t1>>>16)&0xff]^TS1[(t1>>>8)&0xff]^TS2[t1&0xff];
 			t2=TX1[(t2>>>24)&0xff]^TX2[(t2>>>16)&0xff]^TS1[(t2>>>8)&0xff]^TS2[t2&0xff];
-			t3=TX1[(t3>>>24)&0xff]^TX2[(t3>>>16)&0xff]^TS1[(t3>>>8)&0xff]^TS2[t3&0xff];
+			t3=TX1[(t3>>>24)&0xff]^TX2[(t3>>>16)&0xff]^TS1[(t3>>>8)&0xff]^TS2[t3&0xff];  
 			t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
-			t3=badc(t3); t0=cdab(t0); t1=dcba(t1);
+			t3=badc(t3); t0=cdab(t0); t1=dcba(t1);        
 			t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 		}
 		t0^=rk[j++]; t1^=rk[j++]; t2^=rk[j++]; t3^=rk[j++];
@@ -228,7 +228,7 @@ class ARIAEngine {
 		t1=badc(t1); t2=cdab(t2); t3=dcba(t3);
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 
-		t0^=rk[j++]; t1^=rk[j++]; t2^=rk[j++]; t3^=rk[j++];
+		t0^=rk[j++]; t1^=rk[j++]; t2^=rk[j++]; t3^=rk[j++]; 
 		o[ 0+ooffset] = (byte)(X1[0xff&(t0>>>24)] ^ (rk[j  ]>>>24));
 		o[ 1+ooffset] = (byte)(X2[0xff&(t0>>>16)] ^ (rk[j  ]>>>16));
 		o[ 2+ooffset] = (byte)(S1[0xff&(t0>>> 8)] ^ (rk[j  ]>>> 8));
@@ -293,7 +293,7 @@ class ARIAEngine {
 		return o;
 	}
 
-	private static void doEncKeySetup(byte[] mk, int[] rk, int keyBits) {
+	private static void doEncKeySetup(byte[] mk, int[] rk, int keyBits) {      
 		int t0, t1, t2, t3, q, j=0;
 		int[] w0 = new int[4];
 		int[] w1 = new int[4];
@@ -307,11 +307,11 @@ class ARIAEngine {
 
 		q = (keyBits - 128) / 64;
 		t0=w0[0]^KRK[q][0]; t1=w0[1]^KRK[q][1];
-		t2=w0[2]^KRK[q][2]; t3=w0[3]^KRK[q][3];
+		t2=w0[2]^KRK[q][2]; t3=w0[3]^KRK[q][3];  
 		t0=TS1[(t0>>>24)&0xff]^TS2[(t0>>>16)&0xff]^TX1[(t0>>>8)&0xff]^TX2[t0&0xff];
 		t1=TS1[(t1>>>24)&0xff]^TS2[(t1>>>16)&0xff]^TX1[(t1>>>8)&0xff]^TX2[t1&0xff];
 		t2=TS1[(t2>>>24)&0xff]^TS2[(t2>>>16)&0xff]^TX1[(t2>>>8)&0xff]^TX2[t2&0xff];
-		t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];
+		t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];   
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 		t1=badc(t1); t2=cdab(t2); t3=dcba(t3);
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
@@ -336,9 +336,9 @@ class ARIAEngine {
 		t0=TX1[(t0>>>24)&0xff]^TX2[(t0>>>16)&0xff]^TS1[(t0>>>8)&0xff]^TS2[t0&0xff];
 		t1=TX1[(t1>>>24)&0xff]^TX2[(t1>>>16)&0xff]^TS1[(t1>>>8)&0xff]^TS2[t1&0xff];
 		t2=TX1[(t2>>>24)&0xff]^TX2[(t2>>>16)&0xff]^TS1[(t2>>>8)&0xff]^TS2[t2&0xff];
-		t3=TX1[(t3>>>24)&0xff]^TX2[(t3>>>16)&0xff]^TS1[(t3>>>8)&0xff]^TS2[t3&0xff];
+		t3=TX1[(t3>>>24)&0xff]^TX2[(t3>>>16)&0xff]^TS1[(t3>>>8)&0xff]^TS2[t3&0xff]; 
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
-		t3=badc(t3); t0=cdab(t0); t1=dcba(t1);
+		t3=badc(t3); t0=cdab(t0); t1=dcba(t1);        
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 		t0^=w0[0]; t1^=w0[1]; t2^=w0[2]; t3^=w0[3];
 		w2[0]=t0; w2[1]=t1; w2[2]=t2; w2[3]=t3;
@@ -348,7 +348,7 @@ class ARIAEngine {
 		t0=TS1[(t0>>>24)&0xff]^TS2[(t0>>>16)&0xff]^TX1[(t0>>>8)&0xff]^TX2[t0&0xff];
 		t1=TS1[(t1>>>24)&0xff]^TS2[(t1>>>16)&0xff]^TX1[(t1>>>8)&0xff]^TX2[t1&0xff];
 		t2=TS1[(t2>>>24)&0xff]^TS2[(t2>>>16)&0xff]^TX1[(t2>>>8)&0xff]^TX2[t2&0xff];
-		t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];
+		t3=TS1[(t3>>>24)&0xff]^TS2[(t3>>>16)&0xff]^TX1[(t3>>>8)&0xff]^TX2[t3&0xff];   
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 		t1=badc(t1); t2=cdab(t2); t3=dcba(t3);
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
@@ -367,7 +367,7 @@ class ARIAEngine {
 		gsrk(w2, w3, 67, rk, j); j+=4;
 		gsrk(w3, w0, 67, rk, j); j+=4;
 		gsrk(w0, w1, 97, rk, j); j+=4;
-		if (keyBits > 128) {
+		if (keyBits > 128) {  
 			gsrk(w1, w2, 97, rk, j); j+=4;
 			gsrk(w2, w3, 97, rk, j); j+=4;
 		}
@@ -413,7 +413,7 @@ class ARIAEngine {
 	}
 
 	private static int m(int t) {
-		return 0x00010101*((t>>>24)&0xff) ^ 0x01000101*((t>>>16)&0xff) ^
+		return 0x00010101*((t>>>24)&0xff) ^ 0x01000101*((t>>>16)&0xff) ^ 
 		0x01010001*((t>>>8)&0xff) ^ 0x01010100*(t&0xff);
 	}
 
@@ -441,7 +441,7 @@ class ARIAEngine {
 	private static final void diff(int[] i, int offset1, int[] o, int offset2) {
 		int t0, t1, t2, t3;
 
-		t0=m(i[offset1]); t1=m(i[offset1+1]); t2=m(i[offset1+2]); t3=m(i[offset1+3]);
+		t0=m(i[offset1]); t1=m(i[offset1+1]); t2=m(i[offset1+2]); t3=m(i[offset1+3]);         
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
 		t1=badc(t1); t2=cdab(t2); t3=dcba(t3);
 		t1^=t2; t2^=t3; t0^=t1; t3^=t1; t2^=t0; t1^=t2;
@@ -461,7 +461,7 @@ class ARIAEngine {
 	private static final void swapAndDiffuse(int[] arr, int offset1, int offset2, int[] tmp) {
 		diff(arr, offset1, tmp, 0);
 		diff(arr, offset2, arr, offset1);
-		arr[offset2]=tmp[0]; arr[offset2+1]=tmp[1];
+		arr[offset2]=tmp[0]; arr[offset2+1]=tmp[1]; 
 		arr[offset2+2]=tmp[2]; arr[offset2+3]=tmp[3];
 	}
 
@@ -473,7 +473,7 @@ class ARIAEngine {
 				HEX_DIGITS[(b >>> 4) & 0x0F],
 				HEX_DIGITS[ b        & 0x0F]
 		};
-		out.print(new String(buf));
+		out.print(new String(buf));    
 	}
 
 	private static void intToHex(PrintStream out, int i) {
@@ -498,7 +498,7 @@ class ARIAEngine {
 		if (size % 16 != 0)
 			size = (size / 16 + 1) * 16;
 		return size;
-	}
+	}  
 
 	public void encrypt(byte plain[], byte cipher[], int size)throws InvalidKeyException {
 		int len = getBufferSize(size);
@@ -523,34 +523,34 @@ class ARIAEngine {
 
 	}
 	/* hex to byte[] convert */
-	public static byte[] hexToByteArray(String hex) {
-		if (hex == null || hex.length() == 0) {
-			return null;
-		}
+	public static byte[] hexToByteArray(String hex) { 
+		if (hex == null || hex.length() == 0) { 
+			return null; 
+		} 
 
-		byte[] ba = new byte[hex.length() / 2];
-		for (int i = 0; i < ba.length; i++) {
-			ba[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
-		}
-		return ba;
-	}
+		byte[] ba = new byte[hex.length() / 2]; 
+		for (int i = 0; i < ba.length; i++) { 
+			ba[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16); 
+		} 
+		return ba; 
+	} 
 
 
 
 	/* byte to hexa convert */
-	public static String byteArrayToHex(byte[] ba) {
-		if (ba == null || ba.length == 0) {
-			return null;
-		}
+	public static String byteArrayToHex(byte[] ba) { 
+		if (ba == null || ba.length == 0) { 
+			return null; 
+		} 
 
-		StringBuffer sb = new StringBuffer(ba.length * 2);
-		String hexNumber;
-		for (int x = 0; x < ba.length; x++) {
-			hexNumber = "0" + Integer.toHexString(0xff & ba[x]);
+		StringBuffer sb = new StringBuffer(ba.length * 2); 
+		String hexNumber; 
+		for (int x = 0; x < ba.length; x++) { 
+			hexNumber = "0" + Integer.toHexString(0xff & ba[x]); 
 
-			sb.append(hexNumber.substring(hexNumber.length() - 2));
-		}
-		return sb.toString();
+			sb.append(hexNumber.substring(hexNumber.length() - 2)); 
+		} 
+		return sb.toString(); 
 	}
 
 	public ARIAEngine(int keySize, String privateKey)throws InvalidKeyException {
@@ -585,7 +585,7 @@ class ARIAEngine {
 
 	}
 	public static void main(String[] args) throws InvalidKeyException {
-
+	
 	}
 }
 
